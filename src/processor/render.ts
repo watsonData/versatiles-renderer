@@ -64,7 +64,7 @@ async function render(job: RenderJob): Promise<void> {
 				return;
 			case 'line':
 				{
-					const lineStrings = layerFeatures.get(layerStyle.sourceLayer)?.linestrings;
+					const lineStrings = layerFeatures.get(layerStyle.sourceLayer)?.polygons;
 					if (!lineStrings || lineStrings.length === 0) return;
 					const filter = featureFilter(layerStyle.filter);
 					const lineStringFeatures = lineStrings.filter(feature => filter.filter({ zoom }, feature));

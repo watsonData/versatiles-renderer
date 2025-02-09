@@ -80,6 +80,7 @@ export async function getLayerFeatures(job: RenderJob): Promise<LayerFeatures> {
 				const feature = new Feature({
 					type,
 					geometry,
+					id: featureSrc.id,
 					properties: featureSrc.properties,
 				});
 
@@ -90,6 +91,33 @@ export async function getLayerFeatures(job: RenderJob): Promise<LayerFeatures> {
 
 	return layerFeatures;
 }
+
+// const mergeFeatures = (features: Feature[]): Feature[] => {
+// 	const grouped = new Map<string, Feature[]>();
+// 	for (const feature of features) {
+// 		if (!feature.id) continue;
+// 		const key = feature.id as string;
+// 		if (grouped.has(key)) {
+// 			grouped.get(key)!.push(feature);
+// 		} else {
+// 			grouped.set(key, [feature]);
+// 		}
+// 	}
+
+// }
+
+// const mergeFeature = (features: Feature[]): Feature => {
+// 	const merged = new Feature({
+// 		type: 'Polygon',
+// 		geometry: [],
+// 		properties: {},
+// 	});
+// 	for (const feature of features) {
+// 		if (feature.type !== 'Polygon') continue;
+// 		merged.geometry.push(...feature.geometry);
+// 	}
+// 	return merged;
+// }
 
 interface Features {
 	points: Feature[];
