@@ -35,7 +35,7 @@ export class SVGRenderer extends Renderer {
 				`d="${path}"`,
 				`fill="${style.color.hex}"`,
 				style.translate.isZero() ? '' : `transform="translate(${this.#roundPoint(style.translate)})"`,
-				`data-id="${feature.properties.WKR_NR}"`,
+				`data-id="${feature.id}"`,
 				'/>',
 			].join(' '));
 		});
@@ -59,7 +59,7 @@ export class SVGRenderer extends Renderer {
 					`stroke-linecap="${style.cap}"`,
 					`stroke-linejoin="${style.join}"`,
 					`stroke-miterlimit="${style.miterLimit}"`,
-					`data-id="${feature.properties.WK_NR}"`,
+					`data-id="${feature.id}"`,
 					'/>',
 				].join(' '));
 			});
