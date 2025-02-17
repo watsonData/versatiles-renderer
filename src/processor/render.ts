@@ -65,14 +65,16 @@ async function render(job: RenderJob): Promise<void> {
 			case 'line':
 				{
 					const lineStrings = layerFeatures.get(layerStyle.sourceLayer)?.linestrings;
-					if (!lineStrings || lineStrings.length === 0) return;
+					const polygons = layerFeatures.get(layerStyle.sourceLayer)?.polygons;
+					const features = [...(lineStrings || []), ...(polygons || [])];
+					if (!features || features.length === 0) return;
 					const filter = featureFilter(layerStyle.filter);
-					const lineStringFeatures = lineStrings.filter(feature => filter.filter({ zoom }, feature));
+					const filteredFeatures = features.filter(feature => filter.filter({ zoom }, feature));
 
-					if (lineStringFeatures.length === 0) return;
+					if (filteredFeatures.length === 0) return;
 
 					renderer.drawLineStrings(
-						lineStringFeatures.map(feature => [feature, {
+						filteredFeatures.map(feature => [feature, {
 							color: new Color(getPaint<MaplibreColor>('line-color', feature)),
 							translate: new Point2D(...getPaint<[number, number]>('line-translate', feature)),
 							blur: getPaint<number>('line-blur', feature),
@@ -85,7 +87,7 @@ async function render(job: RenderJob): Promise<void> {
 							roundLimit: getLayout<number>('line-round-limit', feature),
 							width: getPaint<number>('line-width', feature),
 						}]),
-						getPaint<number>('line-opacity', lineStringFeatures[0]),
+						getPaint<number>('line-opacity', filteredFeatures[0]),
 					);
 				}
 				return;
